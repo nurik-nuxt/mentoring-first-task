@@ -1,23 +1,3 @@
-// import { createActionGroup, emptyProps, props } from "@ngrx/store";
-// import {User} from "../../types/user.types";
-//
-// export const usersActions = createActionGroup({
-//   source: 'users',
-//   events: {
-//     loadUsers: emptyProps(),
-//
-//     loadUsersSuccess: props<{ users: User[] }>(),
-//
-//     loadUsersFailure: props<{ error: string }>(),
-//
-//     addUser: props<{ user: User }>(),
-//
-//     updateUser: props<{ user: User }>(),
-//
-//     deleteUser: props<{ id: number }>()
-//   }
-// })
-
 import {createAction, emptyProps, props} from "@ngrx/store";
 import {User} from "../../types/user.types";
 
