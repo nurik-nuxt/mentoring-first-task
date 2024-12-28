@@ -27,7 +27,6 @@ export class UserCardComponent {
     });
 
     dialogRef.afterClosed().subscribe(editResult => {
-      console.log('Модалька закрылась', editResult);
       if (!editResult) return;
       this.editUser.emit(editResult);
     });

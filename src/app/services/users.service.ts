@@ -21,7 +21,7 @@ export class UsersService {
   }
 
   loadUser(): void {
-    this.usersApiService.getUser().subscribe(
+    this.usersApiService.getUsers().subscribe(
       (users: any) => {
         this.userSubject.next(users);
         this.saveUsersToLocalStorage(users);
@@ -31,7 +31,6 @@ export class UsersService {
 
   loadLocalUsers(): void {
     const storedUsers = this.localStorageService.getItem('users');
-    console.log(storedUsers)
     if (storedUsers && storedUsers.length > 0) {
       try {
         const users = JSON.parse(storedUsers);

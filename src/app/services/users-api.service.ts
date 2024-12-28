@@ -1,5 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import {User} from "../types/user.types";
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { HttpClient } from "@angular/common/http";
 export class UsersApiService {
 
   constructor(private httpClient: HttpClient) {}
-  getUser() {
-    return this.httpClient.get(` https://jsonplaceholder.typicode.com/users`)
+  getUsers() {
+    return this.httpClient.get<User[]>(` https://jsonplaceholder.typicode.com/users`)
   }
 }
