@@ -13,12 +13,8 @@ import { User } from "../../types/user.types";
 })
 
 export class EditUserDialogComponent {
-  readonly data = inject<{ user: User }>(MAT_DIALOG_DATA);
-  readonly dialogRef = inject(MatDialogRef<EditUserDialogComponent>)
-
-  constructor() {
-    console.log(this.data)
-  }
+  public readonly data = inject<{ user: User }>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject(MatDialogRef<EditUserDialogComponent>)
 
   public form = new FormGroup({
     name: new FormControl(this.data.user.name, [Validators.required, Validators.minLength(2)]),

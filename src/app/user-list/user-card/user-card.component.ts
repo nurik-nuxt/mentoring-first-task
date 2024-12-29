@@ -1,6 +1,7 @@
 import { Component, EventEmitter, inject, Input, Output } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { EditUserDialogComponent } from "../edit-user-dialog/edit-user-dialog.component";
+import { User } from "../../types/user.types";
 
 @Component({
   selector: "app-user-card",
@@ -11,7 +12,7 @@ import { EditUserDialogComponent } from "../edit-user-dialog/edit-user-dialog.co
 
 export class UserCardComponent {
   @Input()
-  user: any;
+  user!: User;
 
   @Output()
   deleteUser = new EventEmitter();

@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable} from "@angular/core";
 import { User } from "../types/user.types";
 import { BehaviorSubject } from "rxjs";
 import { UsersApiService } from "./users-api.service";
@@ -9,12 +9,9 @@ import { LocalStorageService } from "./local-storage.service";
 })
 export class UsersService {
   private userSubject = new BehaviorSubject<User[]>([]);
-  public readonly users$ = this.userSubject.asObservable();
 
-  constructor(
-    private usersApiService: UsersApiService,
-    private localStorageService: LocalStorageService
-  ) {}
+  private usersApiService = inject(UsersApiService);
+  private localStorageService = inject(LocalStorageService);
 
   saveUsersToLocalStorage(users: User[]) {
     this.localStorageService.setItem('users', JSON.stringify(users));
@@ -22,30 +19,13 @@ export class UsersService {
 
   loadUser(): void {
     this.usersApiService.getUsers().subscribe(
-      (users: any) => {
+      (users: User[]) => {
         this.userSubject.next(users);
         this.saveUsersToLocalStorage(users);
       }
     )
   }
 
-  loadLocalUsers(): void {
-    const storedUsers = this.localStorageService.getItem('users');
-    if (storedUsers && storedUsers.length > 0) {
-      try {
-        const users = JSON.parse(storedUsers);
-        if (users && users.length > 0) {
-          this.userSubject.next(users)
-        } else {
-          this.loadLocalUsers()
-        }
-      } catch (error) {
-        console.error('Ошибка парсинга хранимых пользователей:', error);
-      }
-    } else {
-      this.loadUser();
-    }
-  }
   deleteUser(id: number) {
     const users = [...this.userSubject.value];
     const index = users.findIndex((user) => user.id === id);

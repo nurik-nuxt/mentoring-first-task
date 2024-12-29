@@ -5,18 +5,20 @@ import { Injectable } from '@angular/core';
 })
 
 export class LocalStorageService {
-  getItem(key: string): any {
+  getItem(key: string): { [key: string]: string } | Error | null {
     try {
       const storedValue = localStorage.getItem(key);
       return storedValue ? JSON.parse(storedValue) : null;
     } catch (error) {
-      console.error('Error passing localStorage data:',error);
+      if (error instanceof Error) {
+        return error;
+      }
+      return new Error('Unknown error occurred');
     }
   }
 
-  setItem(key: string, data: string): string {
+  setItem(key: string, data: string): void {
     localStorage.setItem(key, JSON.stringify(data));
-    return data
   }
 
   removeItem(key: string): boolean {
