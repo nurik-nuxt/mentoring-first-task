@@ -10,9 +10,7 @@ export class LocalStorageService {
       const storedValue = localStorage.getItem(key);
       return storedValue ? JSON.parse(storedValue) : null;
     } catch (error) {
-      if (error instanceof Error) {
-        return error;
-      }
+      if (error instanceof Error) return error;
       return new Error('Unknown error occurred');
     }
   }

@@ -46,9 +46,7 @@ export const usersReducer = createReducer(
   })),
   on(UserActions.updateUser, (state, payload) => ({
     ...state,
-    users: state.users.map((user) => {
-      return user.id === payload.user.id ? payload.user : user
-    }),
+    users: state.users.map((user) => user.id === payload.user.id ? payload.user : user),
     loading: false,
     error: null,
   }))

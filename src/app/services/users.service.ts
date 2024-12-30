@@ -1,29 +1,30 @@
-import { inject, Injectable} from "@angular/core";
+import { inject, Injectable, OnDestroy } from "@angular/core";
 import { User } from "../types/user.types";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import { UsersApiService } from "./users-api.service";
 import { LocalStorageService } from "./local-storage.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class UsersService implements OnDestroy {
   private userSubject = new BehaviorSubject<User[]>([]);
-
   private usersApiService = inject(UsersApiService);
   private localStorageService = inject(LocalStorageService);
+  private destroy$ = new Subject<void>(); // Для управления отписками
 
   saveUsersToLocalStorage(users: User[]) {
     this.localStorageService.setItem('users', JSON.stringify(users));
   }
 
   loadUser(): void {
-    this.usersApiService.getUsers().subscribe(
-      (users: User[]) => {
+    this.usersApiService.getUsers()
+      .pipe(takeUntil(this.destroy$)) // Отписка при уничтожении
+      .subscribe((users: User[]) => {
         this.userSubject.next(users);
         this.saveUsersToLocalStorage(users);
-      }
-    )
+      });
   }
 
   deleteUser(id: number) {
@@ -37,18 +38,25 @@ export class UsersService {
   }
 
   setUsers(users: User[]) {
-    this.userSubject.next(users)
+    this.userSubject.next(users);
   }
 
   editUser(editedUser: User) {
-    const users = this.userSubject.value.map(user  => user.id === editedUser.id ? editedUser: user)
+    const users = this.userSubject.value.map(user =>
+      user.id === editedUser.id ? editedUser : user
+    );
     this.userSubject.next(users);
-    this.saveUsersToLocalStorage(users)
+    this.saveUsersToLocalStorage(users);
   }
 
   createUser(newUser: User) {
     const users = [...this.userSubject.value, newUser];
     this.userSubject.next(users);
     this.saveUsersToLocalStorage(users);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(); // Завершаем все подписки
+    this.destroy$.complete();
   }
 }

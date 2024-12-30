@@ -1,5 +1,5 @@
-import {createAction, emptyProps, props} from "@ngrx/store";
-import {User} from "../../types/user.types";
+import { createAction, emptyProps, props } from "@ngrx/store";
+import { User } from "../../types/user.types";
 
 export const loadUsers = createAction(
   '[User] Load users]',

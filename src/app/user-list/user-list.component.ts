@@ -22,11 +22,9 @@ import {addUser, deleteUser, loadUsers, updateUser} from "../state/users/users.a
 })
 
 export class UserListComponent {
-
   public readonly store = inject(Store);
-  public readonly users = this.store.select(selectedUsers)
-
-  readonly userCreateDialog = inject(MatDialog)
+  public readonly userCreateDialog = inject(MatDialog);
+  public readonly users = this.store.select(selectedUsers);
 
   constructor() {
     this.store.dispatch(loadUsers())
@@ -45,6 +43,7 @@ export class UserListComponent {
 
     userCreateDialogRef.afterClosed().subscribe(result => {
       if (!result) return
+
       this.store.dispatch(addUser({
         ...result,
         company: {
