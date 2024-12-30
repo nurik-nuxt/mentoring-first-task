@@ -12,7 +12,7 @@ export class UsersService implements OnDestroy {
   private userSubject = new BehaviorSubject<User[]>([]);
   private usersApiService = inject(UsersApiService);
   private localStorageService = inject(LocalStorageService);
-  private destroy$ = new Subject<void>(); // Для управления отписками
+  private destroy$ = new Subject<void>();
 
   saveUsersToLocalStorage(users: User[]) {
     this.localStorageService.setItem('users', JSON.stringify(users));
@@ -20,7 +20,7 @@ export class UsersService implements OnDestroy {
 
   loadUser(): void {
     this.usersApiService.getUsers()
-      .pipe(takeUntil(this.destroy$)) // Отписка при уничтожении
+      .pipe(takeUntil(this.destroy$))
       .subscribe((users: User[]) => {
         this.userSubject.next(users);
         this.saveUsersToLocalStorage(users);
@@ -56,7 +56,7 @@ export class UsersService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(); // Завершаем все подписки
+    this.destroy$.next();
     this.destroy$.complete();
   }
 }

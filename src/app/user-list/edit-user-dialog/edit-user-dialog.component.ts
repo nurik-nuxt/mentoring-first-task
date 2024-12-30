@@ -1,7 +1,7 @@
-import {Component, inject} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialogClose, MatDialogRef} from "@angular/material/dialog";
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {NgIf} from "@angular/common";
+import { Component, inject } from "@angular/core";
+import { MAT_DIALOG_DATA, MatDialogClose, MatDialogRef } from "@angular/material/dialog";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { NgIf } from "@angular/common";
 import { User } from "../../types/user.types";
 
 @Component({
