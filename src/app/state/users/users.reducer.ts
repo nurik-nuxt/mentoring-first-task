@@ -1,18 +1,18 @@
-import { User } from "../../types/user.types";
-import { createReducer, on } from "@ngrx/store";
-import * as UserActions from "./users.actions";
+import { User } from '../../types/user.types'
+import { createReducer, on } from '@ngrx/store'
+import * as UserActions from './users.actions'
 
 export const initialState: {
-  users: User[],
-  loading: boolean,
-  error: string | null,
+  users: User[]
+  loading: boolean
+  error: string | null
 } = {
   users: [],
   loading: false,
-  error: null
+  error: null,
 }
 
-export const USERS_KEY = 'users';
+export const USERS_KEY = 'users'
 
 export const usersReducer = createReducer(
   initialState,
@@ -46,7 +46,7 @@ export const usersReducer = createReducer(
   })),
   on(UserActions.updateUser, (state, payload) => ({
     ...state,
-    users: state.users.map((user) => user.id === payload.user.id ? payload.user : user),
+    users: state.users.map((user) => (user.id === payload.user.id ? payload.user : user)),
     loading: false,
     error: null,
   }))
